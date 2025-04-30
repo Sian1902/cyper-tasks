@@ -45,8 +45,13 @@ public class DES {
 
     // Converts a binary string to a hex string
     private static String binaryToHex(String binary) {
-        BigInteger decimal=new BigInteger(binary,2);
-        return decimal.toString(16);
+        BigInteger decimal = new BigInteger(binary, 2);
+        String hex = decimal.toString(16);
+        // Pad with leading zeros to make it 16 characters (64 bits)
+        while (hex.length() < 16) {
+            hex = "0" + hex;
+        }
+        return hex;
     }
 
     // Generic permutation function
@@ -139,9 +144,10 @@ public class DES {
 
         // TODO: Generate 16 subkeys by shifting and applying PC-2
         for (int i = 0; i < 16; i++) {
-            String newLeft=left.substring(SHIFTS[i])+left.substring(0,SHIFTS[i]);
-            String newRight=right.substring(SHIFTS[i])+right.substring(0,SHIFTS[i]);
-            String compined=newLeft+newRight;
+
+            left=leftShift(left,SHIFTS[i]);
+            right=leftShift(right,SHIFTS[i]);;
+            String compined=left+right;
             String pc2=permute(compined,PC2);
             subkeys[i]=pc2;
         }
