@@ -39,9 +39,7 @@ public class RSA {
         BigInteger bigQ = BigInteger.valueOf(q);
         BigInteger n = bigP.multiply(bigQ);
         BigInteger message = BigInteger.valueOf(M);
-        BigInteger exponent = BigInteger.valueOf(e);
-
-        BigInteger cipher = message.modPow(exponent, n);
+        BigInteger cipher = message.pow(e).mod(n);
         return cipher.intValue();
     }
 
@@ -61,10 +59,10 @@ public class RSA {
 
 
         BigInteger bigC = BigInteger.valueOf(C);
-        BigInteger bigD = BigInteger.valueOf(d);
         BigInteger n = BigInteger.valueOf((long) p * q);
 
-        BigInteger message = bigC.modPow(bigD, n);
+
+        BigInteger message = bigC.pow(d).mod(n);
         return message.intValue();
     }
 
