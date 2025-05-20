@@ -5,6 +5,13 @@ import java.util.AbstractMap;
 import java.util.Map.Entry;
 
 public class RSA {
+    public BigInteger newModPow(BigInteger base,BigInteger pow,BigInteger mod){
+        BigInteger res=BigInteger.ONE;
+        for(int i=0;pow.compareTo(BigInteger.valueOf(i))>0;i++){
+            res=res.multiply(base).mod(mod);
+        }
+        return res;
+    }
     public Entry<Integer, Boolean> extendedEuclidean(int tutiont, int e) {
         int a1 = 1, a2 = 0, a3 = tutiont;
         int b1 = 0, b2 = 1, b3 = e;
@@ -39,7 +46,8 @@ public class RSA {
         BigInteger bigQ = BigInteger.valueOf(q);
         BigInteger n = bigP.multiply(bigQ);
         BigInteger message = BigInteger.valueOf(M);
-        BigInteger cipher = message.pow(e).mod(n);
+        BigInteger exponent=BigInteger.valueOf(e);
+        BigInteger cipher=newModPow(message,exponent,n);
         return cipher.intValue();
     }
 
@@ -54,15 +62,11 @@ public class RSA {
         }
 
         int d = result.getKey();
-
-
-
-
+        BigInteger bigD=BigInteger.valueOf(d);
         BigInteger bigC = BigInteger.valueOf(C);
         BigInteger n = BigInteger.valueOf((long) p * q);
 
-
-        BigInteger message = bigC.pow(d).mod(n);
+        BigInteger message=newModPow(bigC,bigD,n);
         return message.intValue();
     }
 

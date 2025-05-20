@@ -4,25 +4,18 @@ import java.math.BigInteger;
 import java.util.List;
 
 public class DiffieHellman {
+    RSA rsa= new RSA();
     public List<Integer> getKeys(int q, int alpha, int xa, int xb) {
 
         BigInteger bigAlpha=BigInteger.valueOf(alpha);
         BigInteger bigQ=BigInteger.valueOf(q);
+        BigInteger Xa=BigInteger.valueOf(xa);
+        BigInteger Xb=BigInteger.valueOf(xb);
 
-
-        BigInteger ya=bigAlpha.pow(xa);
-        ya=ya.mod(bigQ);
-
-        BigInteger yb=bigAlpha.pow(xb);
-        yb=yb.mod(bigQ);
-
-        BigInteger ka=yb.pow(xa);
-        ka=ka.mod(bigQ);
-
-        BigInteger kb=ya.pow(xb);
-        kb=kb.mod(bigQ);
-
-
+        BigInteger ya=rsa.newModPow(bigAlpha,Xa,bigQ);
+        BigInteger yb=rsa.newModPow(bigAlpha,Xb,bigQ);
+        BigInteger ka=rsa.newModPow(yb,Xa,bigQ);
+        BigInteger kb=rsa.newModPow(ya,Xb,bigQ);
 
         return List.of(ka.intValue(),kb.intValue());
     }

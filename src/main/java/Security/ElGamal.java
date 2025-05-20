@@ -12,9 +12,10 @@ public class ElGamal {
         BigInteger bigAlpha = BigInteger.valueOf(alpha);
         BigInteger bigY = BigInteger.valueOf(y);
         BigInteger bigM = BigInteger.valueOf(m);
+        BigInteger bigK=BigInteger.valueOf(k);
 
-        BigInteger C1=bigAlpha.pow(k).mod(bigQ);
-        BigInteger K=bigY.pow(k).mod(bigQ);
+        BigInteger C1=rsa.newModPow(bigAlpha,bigK,bigQ);
+        BigInteger K=rsa.newModPow(bigY,bigK,bigQ);
         BigInteger C2 = K.multiply(bigM).mod(bigQ);
 
         return List.of(C1.longValue(), C2.longValue());
@@ -25,11 +26,9 @@ public class ElGamal {
         BigInteger bigC1 = BigInteger.valueOf(c1);
         BigInteger bigC2 = BigInteger.valueOf(c2);
         BigInteger bigQ = BigInteger.valueOf(q);
+        BigInteger bigX=BigInteger.valueOf(x);
 
-
-
-        BigInteger K=bigC1.pow(x).mod(bigQ);
-
+        BigInteger K=rsa.newModPow(bigC1,bigX,bigQ);
 
         int kInv= rsa.extendedEuclidean(q,K.intValue()).getKey();
         BigInteger KInverse = BigInteger.valueOf(kInv);
